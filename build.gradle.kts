@@ -25,7 +25,7 @@ dependencies {
     implementation("io.jsonwebtoken:jjwt-impl:0.11.5")
     implementation("io.jsonwebtoken:jjwt-jackson:0.11.5")
     implementation("com.google.code.gson:gson:2.8.8")
-    implementation("org.projectlombok:lombok:1.18.26")
+    implementation("org.projectlombok:lombok:1.18.28")
     testRuntimeOnly("org.junit.jupiter:junit-jupiter-engine:5.8.1")
     testImplementation(platform("org.junit:junit-bom:5.9.1"))
     testImplementation("org.mockito:mockito-core:2.24.5")
