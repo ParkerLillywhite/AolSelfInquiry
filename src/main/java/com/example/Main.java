@@ -1,4 +1,4 @@
-package org.example;
+package com.example;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -7,7 +7,7 @@ import org.springframework.context.annotation.ComponentScan;
 
 @SpringBootApplication
 @EntityScan(basePackages = "org.user")
-@ComponentScan(basePackages = "org.example")
+@ComponentScan(basePackages = "com")
 public class Main {
     public static void main(String[] args) {
         SpringApplication.run(Main.class, args);

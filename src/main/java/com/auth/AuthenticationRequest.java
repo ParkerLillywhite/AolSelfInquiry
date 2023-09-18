@@ -1,4 +1,4 @@
-package org.auth;
+package com.auth;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -7,8 +7,10 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Builder
-@NoArgsConstructor
 @AllArgsConstructor
-public class AuthenticationResponse {
-    private String token;
+@NoArgsConstructor
+
+public class AuthenticationRequest {
+    private String email;
+    private String password;
 }
