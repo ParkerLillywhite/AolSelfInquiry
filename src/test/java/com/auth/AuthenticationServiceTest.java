@@ -9,9 +9,12 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.neo4j.Neo4jProperties;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -66,8 +69,9 @@ public class AuthenticationServiceTest {
                 .email("boinkos@boink.com")
                 .password("password")
                 .build();
+        Authentication authentication = new UsernamePasswordAuthenticationToken("username", "password");
 
-        doNothing().when(authenticationManager.authenticate(any()));
+        when(authenticationManager.authenticate(any())).thenReturn(authentication);
         when(userRepository.findByEmail(request.getEmail())).thenReturn(java.util.Optional.of(new User()));
         when(jwtService.generateToken(any(User.class))).thenReturn("generated token");
 
@@ -85,7 +89,9 @@ public class AuthenticationServiceTest {
                 .password("password")
                 .build();
 
-        doNothing().when(authenticationManager.authenticate(any()));
+        Authentication authentication = new UsernamePasswordAuthenticationToken("username", "password");
+
+        when(authenticationManager.authenticate(any())).thenReturn(authentication);
         when(userRepository.findByEmail(any())).thenReturn(java.util.Optional.empty());
 
         AuthenticationService service = new AuthenticationService(userRepository, passwordEncoder, jwtService, authenticationManager);
