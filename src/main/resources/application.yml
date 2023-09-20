@@ -1,7 +1,7 @@
 spring:
   datasource:
     url: jdbc:mysql://localhost:3306/AOLSI
-    username: root
+    username: root # for production consider environment variables to avoid hard coded username and password
     password: int
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
@@ -13,3 +13,11 @@ spring:
         format-sql: true
     database: mysql
     database-platform: org.hibernate.dialect.MySQLDialect
+
+server:
+  servlet:
+    session:
+      cookie:
+        secure: true # Set to true for HTTPS-only
+        http-only: true # This prevents Javascript from accessing the cookie
+        max-age: 86400 # Set the expiration time in seconds

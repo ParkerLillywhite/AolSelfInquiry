@@ -2,8 +2,10 @@ package com.config;
 
 import com.user.User;
 import com.user.UserRepository;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.mockito.Mock;
+import org.mockito.MockitoAnnotations;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 
@@ -14,10 +16,12 @@ import static org.mockito.Mockito.when;
 
 
 public class ApplicationConfigTest {
+
+    @Mock
     private UserRepository userRepository;
     @BeforeEach
     public void Setup() {
-        userRepository = mock(UserRepository.class);
+        MockitoAnnotations.initMocks(this);
     }
 
     @Test
