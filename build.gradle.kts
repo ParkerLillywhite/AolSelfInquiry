@@ -23,7 +23,6 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-data-jpa:3.1.0")
     implementation("org.springframework.boot:spring-boot-starter-validation:3.1.0")
     implementation("org.springframework.boot:spring-boot-starter-security:3.1.0")
-//    implementation("jakarta.persistence:jakarta.persistence-api:2.2.3")
     implementation("mysql:mysql-connector-java:8.0.27")
     implementation("io.jsonwebtoken:jjwt-api:0.11.5")
     implementation("io.jsonwebtoken:jjwt-impl:0.11.5")
@@ -36,7 +35,7 @@ dependencies {
     testImplementation("org.springframework.boot:spring-boot-starter-test:3.1.0")
     testImplementation(platform("org.junit:junit-bom:5.9.1"))
     testImplementation("org.junit.jupiter:junit-jupiter")
-    testImplementation("junit:junit:4.12")
+    testImplementation("junit:junit:4.13.1")
     testImplementation("org.mockito:mockito-junit-jupiter:2.24.5")
 
 
@@ -44,4 +43,8 @@ dependencies {
 
 tasks.test {
     useJUnitPlatform()
+}
+
+tasks.jar {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
