@@ -13,11 +13,12 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
+import com.consts.consts;
 
 @Service
 public class JwtService {
 
-    private static final String SECRET_KEY= "rxP3HFALqcI23ghHMphvF3b7IfzLjfCN";
+    private static final String SECRET_KEY = consts.SECRET_KEY;
     public String extractUsername(String token) {
         return extractClaims(token, Claims::getSubject);
     }
