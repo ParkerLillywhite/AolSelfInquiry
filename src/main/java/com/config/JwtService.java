@@ -1,5 +1,6 @@
 package com.config;
 
+import com.consts.Consts;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -13,12 +14,12 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.function.Function;
-import com.consts.consts;
+
 
 @Service
 public class JwtService {
 
-    private static final String SECRET_KEY = consts.SECRET_KEY;
+    private static final String SECRET_KEY = Consts.SECRET_KEY;
     public String extractUsername(String token) {
         return extractClaims(token, Claims::getSubject);
     }
