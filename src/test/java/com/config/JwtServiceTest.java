@@ -24,7 +24,7 @@ public class JwtServiceTest {
         JwtService jwtService = new JwtService();
 
         Claims claims = mock(Claims.class);
-        when(jwtService.extractClaims(mockToken, Claims::getSubject)).thenReturn(String.valueOf(claims));
+        when(jwtService.extractClaim(mockToken, Claims::getSubject)).thenReturn(String.valueOf(claims));
 
         String expectedUsername = "testUser";
         when(claims.getSubject()).thenReturn(expectedUsername);

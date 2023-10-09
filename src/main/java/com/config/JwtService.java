@@ -21,7 +21,7 @@ public class JwtService {
 
     private static final String SECRET_KEY = Consts.SECRET_KEY;
     public String extractUsername(String token) {
-        return extractClaims(token, Claims::getSubject);
+        return extractClaim(token, Claims::getSubject);
     }
 
     public String generateToken(UserDetails userDetails) {
@@ -42,7 +42,7 @@ public class JwtService {
                 .compact();
     }
 
-    public <T> T extractClaims(String token, Function<Claims, T> claimsResolver) {
+    public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
         final Claims claims = extractAllClaims(token);
         return claimsResolver.apply(claims);
     }
@@ -66,7 +66,7 @@ public class JwtService {
     }
 
     private Date extractExpiration(String token) {
-        return extractClaims(token, Claims::getExpiration);
+        return extractClaim(token, Claims::getExpiration);
     }
 
     private Key getSignInKey() {
