@@ -1,6 +1,7 @@
 package com.config;
 
 import com.consts.Consts;
+import com.security.KeyGenerator;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -19,7 +20,7 @@ import java.util.function.Function;
 @Service
 public class JwtService {
 
-    private static final String SECRET_KEY = Consts.SECRET_KEY;
+    private static final String SECRET_KEY = KeyGenerator.generateKey(32);
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
     }
