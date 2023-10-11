@@ -13,7 +13,9 @@
   </component>
   <component name="DBNavigator.Project.DatabaseConsoleManager">
     <connection id="76b42e64-f331-46a0-ab49-9bacd11be666">
-      <console name="Connection" type="STANDARD" schema="AOLSI" session="Main"><![CDATA[select * from _user;]]></console>
+      <console name="Connection" type="STANDARD" schema="AOLSI" session="Main"><![CDATA[select * from _user;
+
+DELETE FROM _user;]]></console>
     </connection>
   </component>
   <component name="DBNavigator.Project.DatabaseEditorStateManager">
