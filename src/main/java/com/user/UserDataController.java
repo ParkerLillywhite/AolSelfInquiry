@@ -13,7 +13,7 @@ public class UserDataController {
     private final UserService service;
 
     @PostMapping("/getData")
-    public ResponseEntity<Optional<Object[]>> getData(
+    public ResponseEntity<UserFilteredResponse> getData(
             @RequestBody String request
     ) {
         return ResponseEntity.ok(service.findUserDataByEmail(request));

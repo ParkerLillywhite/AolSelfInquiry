@@ -17,6 +17,7 @@ public class UserService {
         if(resultOptional.isPresent()) {
 
             Object[] result = resultOptional.get();
+
             UserFilteredResponse userFilteredResponse = UserFilteredResponse
                     .builder()
                     .firstname(String.valueOf(result[0]))
@@ -26,7 +27,7 @@ public class UserService {
                     .build();
             return userFilteredResponse;
         }
-
+        return null;
     }
 
 }
