@@ -12,9 +12,9 @@ import java.util.Optional;
 public class UserDataController {
     private final UserService service;
 
-    @PostMapping("/getData")
+    @GetMapping("/getData")
     public ResponseEntity<UserFilteredResponse> getData(
-            @RequestBody String request
+            @RequestParam String request
     ) {
         return ResponseEntity.ok(service.findUserDataByEmail(request));
     }
