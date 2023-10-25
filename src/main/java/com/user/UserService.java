@@ -12,22 +12,25 @@ public class UserService {
     private final UserRepository userRepository;
 
     public UserFilteredResponse findUserDataByEmail(String email) {
-        Optional<Object[]> resultOptional = userRepository.findUserDataByEmail(email);
+        Optional<User> optionalUser = userRepository.findByEmail(email);
 
-        if(resultOptional.isPresent()) {
-
-            Object[] result = resultOptional.get();
+        if(optionalUser.isPresent()) {
+            User userData = optionalUser.get();
 
             UserFilteredResponse userFilteredResponse = UserFilteredResponse
                     .builder()
-                    .firstname(String.valueOf(result[0]))
-                    .lastname(String.valueOf(result[1]))
-                    .email(String.valueOf(result[2]))
-                    .role(Role.valueOf(String.valueOf(result[3])))
+                    .firstname(userData.getFirstname())
+                    .lastname(userData.getLastname())
+                    .email(userData.getEmail())
+                    .role(userData.getRole())
                     .build();
+
             return userFilteredResponse;
         }
         return null;
+
     }
+
+
 
 }

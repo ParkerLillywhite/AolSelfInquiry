@@ -1,6 +1,7 @@
 package com.user;
 
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,10 +13,10 @@ import java.util.Optional;
 public class UserDataController {
     private final UserService service;
 
-    @GetMapping("/getData")
+    @GetMapping("/get-data/{email}")
     public ResponseEntity<UserFilteredResponse> getData(
-            @RequestParam String request
+            @PathVariable String email
     ) {
-        return ResponseEntity.ok(service.findUserDataByEmail(request));
+        return ResponseEntity.ok(service.findUserDataByEmail(email));
     }
 }

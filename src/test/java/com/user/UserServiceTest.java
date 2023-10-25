@@ -7,6 +7,7 @@ import org.mockito.MockitoAnnotations;
 
 import java.util.Optional;
 
+import static com.user.Role.USER;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.mockito.ArgumentMatchers.anyString;
@@ -27,22 +28,26 @@ public class UserServiceTest {
 
     @Test
     public void testFindUserDataByEmail_givenValidInfo_returnsUserObject() {
-        String email = "validEmail@validity.com";
+        String email = "nogg";
 
-        Object[] response = {
-                "Bognor",
-                "Cheepus",
-                "validEmail@validity.com",
-                "USER"
-        };
+        Role role = USER;
 
-        when(userRepository.findUserDataByEmail(anyString())).thenReturn(Optional.of(response));
+        User response = User
+                .builder()
+                .firstname("nog")
+                .lastname("noggus")
+                .email("nogg")
+                .password("nog")
+                .role(role)
+                .build();
+
+        when(userRepository.findByEmail(anyString())).thenReturn(Optional.ofNullable(response));
 
         UserFilteredResponse userFilteredResponse = userService.findUserDataByEmail(email);
 
-        assertEquals("Bognor", userFilteredResponse.getFirstname());
-        assertEquals("Cheepus", userFilteredResponse.getLastname());
-        assertEquals("validEmail@validity.com", userFilteredResponse.getEmail());
+        assertEquals("nog", userFilteredResponse.getFirstname());
+        assertEquals("noggus", userFilteredResponse.getLastname());
+        assertEquals("nogg", userFilteredResponse.getEmail());
         assertEquals("USER", String.valueOf(userFilteredResponse.getRole()));
     }
 
@@ -50,9 +55,7 @@ public class UserServiceTest {
     public void testFindUserDataByEmail_withInvalidEmail_returnsNull() {
         String email = "bonkus";
 
-        Optional<Object[]> resultOptional = Optional.empty();
-
-        when(userRepository.findUserDataByEmail(email)).thenReturn(resultOptional);
+        when(userRepository.findByEmail(email)).thenReturn(Optional.empty());
 
         UserFilteredResponse userFilteredResponse = userService.findUserDataByEmail(email);
 
