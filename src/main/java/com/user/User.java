@@ -1,4 +1,5 @@
 package com.user;
+import com.date.TimeEntity;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -25,6 +26,10 @@ public class User implements UserDetails {
 
     @Enumerated(EnumType.STRING)
     private Role role;
+
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
+    private List<TimeEntity> times;
+
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
