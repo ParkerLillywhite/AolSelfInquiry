@@ -1,10 +1,12 @@
 package com.date;
 
+import com.user.User;
 import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
 
+import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -13,6 +15,7 @@ import java.util.Optional;
 import static org.hamcrest.Matchers.any;
 import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
+import static org.mockito.ArgumentMatchers.any;
 
 public class DateServiceTest {
 
@@ -46,6 +49,56 @@ public class DateServiceTest {
                 .times(new ArrayList<TimeEntity>())
                 .disabled(true)
                 .build();
-        when(dateRepository.findByDate(any()).thenReturn(Optional.ofNullable(dateEntity));
+
+        DateRequest dateRequest = DateRequest
+                .builder()
+                .date(new Date())
+                .build();
+
+        when(dateRepository.findByDate(any())).thenReturn(Optional.ofNullable(dateEntity));
+
+        boolean result = dateService.areTimesCurrentlyPresentOnDateEntity(dateRequest);
+
+        assertEquals(result, false);
+    }
+
+    @Test
+    public void testAreTimesCurrentlyPresentOnDateEntity_withValidTimes_returnsTrue() {
+
+        List<TimeEntity> times = new ArrayList<>();
+
+        DateRequest dateRequest = DateRequest
+                .builder()
+                .date(new Date())
+                .build();
+
+        DateEntity firstDateEntity = DateEntity
+                .builder()
+                .date(new Date())
+                .times(new ArrayList<>())
+                .disabled(true)
+                .build();
+
+        TimeEntity timeEntity = TimeEntity
+                .builder()
+                .date(firstDateEntity)
+                .time(LocalTime.of(15, 30))
+                .user(new User())
+                .build();
+
+        times.add(timeEntity);
+
+        DateEntity dateEntity = DateEntity
+                .builder()
+                .date(new Date())
+                .times(times)
+                .disabled(true)
+                .build();
+
+        when(dateRepository.findByDate(any())).thenReturn(Optional.ofNullable(dateEntity));
+
+        boolean result = dateService.areTimesCurrentlyPresentOnDateEntity(dateRequest);
+
+        assertEquals(result, true);
     }
 }
