@@ -1,7 +1,8 @@
 package com.date;
 
+import com.user.Role;
 import com.user.User;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
@@ -14,6 +15,7 @@ import java.util.Optional;
 
 import static org.hamcrest.Matchers.any;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.*;
 import static org.mockito.ArgumentMatchers.any;
 
@@ -22,83 +24,94 @@ public class DateServiceTest {
     @Mock
     private DateRepository dateRepository;
 
+    @Mock
+    private TimeRepository timeRepository;
+
     private DateService dateService;
+
+    private DateEntity supremeDateEntity;
+    private List<TimeEntity> timeEntities;
+    private User user;
+    private TimeEntity timeEntity;
+    private DateEntity dateEntityWithTimes;
+
+    private DateRequest dateRequest;
+
 
     @BeforeEach
     public void SetUp(){
         MockitoAnnotations.initMocks(this);
-        dateService = new DateService(dateRepository);
+        dateService = new DateService(dateRepository, timeRepository);
+
+        supremeDateEntity = DateEntity
+                .builder()
+                .date(new Date(2023, 10,23))
+                .times(new ArrayList<>())
+                .disabled(true)
+                .build();
+
+        timeEntities = new ArrayList<>();
+
+        user = User
+                .builder()
+                .email("crog@crogland.com")
+                .firstname("crog")
+                .lastname("bonson")
+                .role(Role.USER)
+                .build();
+
+        timeEntity = TimeEntity
+                .builder()
+                .date(supremeDateEntity)
+                .time(LocalTime.MIDNIGHT)
+                .user(user)
+                .build();
+
+        timeEntities.add(timeEntity);
+
+        dateEntityWithTimes = DateEntity
+                .builder()
+                .times(timeEntities)
+                .date(new Date(2023, 10, 23))
+                .disabled(true)
+                .build();
+
+        dateRequest = DateRequest
+                .builder()
+                .date(new Date(2023, 10, 23))
+                .build();
     }
 
     @Test
-    public void testFindAllDisbaledDates_withValidEntities_returnsListOfDisabledResponses() {
+    public void testFindAllDisabledDates_withValidEntities_returnsListOfDisabledResponses() {
         List<DateEntity> dateEntities = new ArrayList<>();
         when(dateRepository.findByDisabledTrue()).thenReturn(dateEntities);
 
         List<DateDisabledResponse> dateDisabledResponses = dateService.findAllDisabledDates();
 
         assertEquals(dateEntities.size(), dateDisabledResponses.size());
-        assertEquals(dateDisabledResponses.get(1).getDisabled(), true);
     }
 
     @Test
-    public void testAreTimesCurrentlyPresentOnDateEntity_withEntityWithoutTimes_returnsFalse() {
-        DateEntity dateEntity = DateEntity
-                .builder()
-                .date(new Date())
-                .times(new ArrayList<TimeEntity>())
-                .disabled(true)
-                .build();
+    public void testDisabledDate_withPresentTimeEntities_returnsListOfTimeCancelledResponses() {
+        when(dateRepository.findByDate(any())).thenReturn(Optional.ofNullable(dateEntityWithTimes));
+        doNothing().when(timeRepository).deleteByEntity(any());
 
-        DateRequest dateRequest = DateRequest
-                .builder()
-                .date(new Date())
-                .build();
 
-        when(dateRepository.findByDate(any())).thenReturn(Optional.ofNullable(dateEntity));
+        List<TimeCancelledResponse> timeCancelledResponses = dateService.disableDate(dateRequest);
 
-        boolean result = dateService.areTimesCurrentlyPresentOnDateEntity(dateRequest);
+        assertEquals(timeCancelledResponses.get(0).getDate(), dateEntityWithTimes.getDate());
 
-        assertEquals(result, false);
     }
 
     @Test
-    public void testAreTimesCurrentlyPresentOnDateEntity_withValidTimes_returnsTrue() {
+    public void testDisableDate_withNoTimeEntities_returnsEmptyList() {
+        when(dateRepository.findByDate(any())).thenReturn(Optional.ofNullable(supremeDateEntity));
+        doNothing().when(timeRepository).deleteByEntity(any());
 
-        List<TimeEntity> times = new ArrayList<>();
+        List<TimeCancelledResponse> timeCancelledResponses = dateService.disableDate(dateRequest);
 
-        DateRequest dateRequest = DateRequest
-                .builder()
-                .date(new Date())
-                .build();
-
-        DateEntity firstDateEntity = DateEntity
-                .builder()
-                .date(new Date())
-                .times(new ArrayList<>())
-                .disabled(true)
-                .build();
-
-        TimeEntity timeEntity = TimeEntity
-                .builder()
-                .date(firstDateEntity)
-                .time(LocalTime.of(15, 30))
-                .user(new User())
-                .build();
-
-        times.add(timeEntity);
-
-        DateEntity dateEntity = DateEntity
-                .builder()
-                .date(new Date())
-                .times(times)
-                .disabled(true)
-                .build();
-
-        when(dateRepository.findByDate(any())).thenReturn(Optional.ofNullable(dateEntity));
-
-        boolean result = dateService.areTimesCurrentlyPresentOnDateEntity(dateRequest);
-
-        assertEquals(result, true);
+        assertTrue(timeCancelledResponses.isEmpty());
     }
+
 }

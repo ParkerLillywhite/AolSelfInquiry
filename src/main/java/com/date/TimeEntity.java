@@ -14,6 +14,7 @@ import java.time.LocalTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Table(name = "time_entities")
 public class TimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -23,10 +24,10 @@ public class TimeEntity {
     private LocalTime time;
 
     @ManyToOne
-    @JoinColumn(name = "date_id")
+    @JoinColumn(name = "date.id")
     private DateEntity date;
 
     @ManyToOne
-    @JoinColumn(name = "_user_id")
+    @JoinColumn(name = "user.id")
     private User user;
 }

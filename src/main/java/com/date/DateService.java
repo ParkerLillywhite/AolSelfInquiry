@@ -12,14 +12,48 @@ import java.util.Optional;
 @RequiredArgsConstructor
 public class DateService {
     private final DateRepository dateRepository;
+    private final TimeRepository timeRepository;
 
     public void createDisabledDate(DateRequest dateRequest){
-        DateEntity
+        DateEntity dateEntity = DateEntity
                 .builder()
                 .date(dateRequest.getDate())
                 .times(new ArrayList<TimeEntity>())
                 .disabled(true)
                 .build();
+        dateRepository.save(dateEntity);
+    }
+
+    public List<TimeCancelledResponse> disableDate(DateRequest request) {
+        Optional<DateEntity> optionalDateEntity = dateRepository.findByDate(request.getDate());
+        DateEntity dateEntity = null;
+        if(optionalDateEntity.isPresent()){
+            dateEntity = optionalDateEntity.get();
+        }
+
+        if(areTimesCurrentlyPresentOnDateEntity(dateEntity)){
+
+            List<TimeCancelledResponse> timeCancelledResponses = dateEntity.getTimes()
+                    .stream()
+                    .map(e -> TimeCancelledResponse
+                            .builder()
+                            .time(e.getTime())
+                            .date(e.getDate().getDate())
+                            .user(e.getUser())
+                            .build())
+                    .toList();
+
+            timeRepository.deleteByEntity(dateEntity);
+            createDisabledDate(request);
+
+            return timeCancelledResponses;
+        } else {
+
+            timeRepository.deleteByEntity(dateEntity);
+            createDisabledDate(request);
+
+            return new ArrayList<>();
+        }
     }
 
     public List<DateDisabledResponse> findAllDisabledDates(){
@@ -34,15 +68,11 @@ public class DateService {
         return dateDisabledResponses;
     }
 
-    public boolean areTimesCurrentlyPresentOnDateEntity(DateRequest request) {
-        Optional<DateEntity> optionalDateEntity = dateRepository.findByDate(request.getDate());
+    public boolean areTimesCurrentlyPresentOnDateEntity(DateEntity dateEntity) {
 
-        if(optionalDateEntity.isPresent()) {
-            DateEntity dateEntity = optionalDateEntity.get();
-            List<TimeEntity> times = dateEntity.getTimes();
+        List<TimeEntity> times = dateEntity.getTimes();
 
-            return !times.isEmpty();
-        }
-        return false;
+        return !times.isEmpty();
+
     }
 }

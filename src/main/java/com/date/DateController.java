@@ -19,10 +19,10 @@ public class DateController {
     private final DateService dateService;
 
     @PostMapping("/create-disabled")
-    public void createDate(
+    public ResponseEntity<List<TimeCancelledResponse>> createDisabledDate(
             @RequestBody DateRequest request
     ) {
-        dateService.createDisabledDate(request);
+        return ResponseEntity.ok(dateService.disableDate(request));
     }
 
     @GetMapping("/disabled-dates")
