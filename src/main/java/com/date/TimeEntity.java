@@ -2,6 +2,7 @@ package com.date;
 
 import com.user.User;
 import jakarta.persistence.*;
+import jakarta.persistence.Entity;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,7 +15,6 @@ import java.time.LocalTime;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table(name = "time_entities")
 public class TimeEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -24,10 +24,10 @@ public class TimeEntity {
     private LocalTime time;
 
     @ManyToOne
-    @JoinColumn(name = "date.id")
+    @JoinColumn(name = "date_id")
     private DateEntity date;
 
     @ManyToOne
-    @JoinColumn(name = "user.id")
+    @JoinColumn(name = "user_id")
     private User user;
 }

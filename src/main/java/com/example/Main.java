@@ -8,8 +8,15 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 
 @SpringBootApplication
-@EntityScan(basePackages = "com.user")
-@ComponentScan(basePackages = {"com.auth", "com.config", "com.demo", "com.example", "com.user"})
+@EntityScan(basePackages = {"com.user", "com.date"})
+@ComponentScan(basePackages = {
+        "com.auth",
+        "com.config",
+        "com.demo",
+        "com.example",
+        "com.user",
+        "com.date"
+})
 public class Main {
     public static void main(String[] args) {
         SpringApplication.run(Main.class, args);
