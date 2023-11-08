@@ -39,7 +39,7 @@ public class DateServiceTest {
 
     @BeforeEach
     public void SetUp(){
-        //helper
+        //helper method
         MockitoAnnotations.initMocks(this);
         dateService = new DateService(dateRepository, timeRepository);
 
