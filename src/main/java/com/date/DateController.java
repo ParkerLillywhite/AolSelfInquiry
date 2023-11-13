@@ -15,7 +15,6 @@ import java.util.List;
 @RequestMapping("api/v1/date")
 @RequiredArgsConstructor
 public class DateController {
-    private final DateRepository dateRepository;
     private final DateService dateService;
 
     @PostMapping("/create-disabled")
