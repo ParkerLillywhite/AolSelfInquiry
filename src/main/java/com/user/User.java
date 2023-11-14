@@ -28,7 +28,6 @@ public class User implements UserDetails {
     private Role role;
 
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true)
-    @OrderColumn(name = "position")
     private List<TimeEntity> times;
 
 
