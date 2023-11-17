@@ -15,7 +15,6 @@ repositories {
 
 dependencies {
     implementation("junit:junit:4.13.1")
-    implementation("com.h2database:h2:1.4.191")
     implementation("org.springframework:spring-core:6.0.9")
     implementation("org.springframework:spring-web:6.0.9")
     implementation("org.springframework.boot:spring-boot-starter:3.1.0")

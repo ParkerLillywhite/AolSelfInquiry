@@ -10,7 +10,6 @@ import java.util.List;
 import java.util.Optional;
 
 @Repository
-@AutoConfiguration
 public interface DateRepository extends JpaRepository<DateEntity, Long> {
     Optional<DateEntity> findByDate(Date date);
 
