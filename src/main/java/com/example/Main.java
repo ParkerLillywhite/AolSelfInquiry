@@ -10,12 +10,12 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 @SpringBootApplication
 @EntityScan(basePackages = {"com.user", "com.date"})
 @ComponentScan(basePackages = {
+        "com.date",
         "com.auth",
         "com.config",
         "com.demo",
         "com.example",
-        "com.user",
-        "com.date"
+        "com.user"
 })
 public class Main {
     public static void main(String[] args) {
