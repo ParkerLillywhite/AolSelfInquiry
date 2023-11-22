@@ -27,6 +27,9 @@ public class DateService {
     }
 
     public List<TimeCancelledResponse> disableDate(DateRequest request) {
+        // gets all of the times that occur on the date then disables the date, and returns the times
+        // to be handled in the front end.
+
         Optional<DateEntity> optionalDateEntity = dateRepository.findByDate(request.getDate());
         DateEntity dateEntity = null;
         if(optionalDateEntity.isPresent()){

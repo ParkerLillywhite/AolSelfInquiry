@@ -8,7 +8,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.jpa.repository.support.JpaRepositoryFactory;
 
 @Configuration
-public class RepostoryConfiguration {
+public class RepositoryConfiguration {
+    //workaround for Spring not being able to find repository.
     @Bean
     public DateRepository dateRepository(EntityManager entityManager) {
         return new JpaRepositoryFactory(entityManager).getRepository(DateRepository.class);
