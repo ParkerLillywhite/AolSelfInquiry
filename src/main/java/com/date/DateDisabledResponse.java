@@ -16,5 +16,4 @@ import java.util.Date;
 public class DateDisabledResponse {
     @Temporal(TemporalType.DATE)
     private Date date;
-    private Boolean disabled;
 }

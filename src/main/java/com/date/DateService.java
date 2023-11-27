@@ -67,7 +67,6 @@ public class DateService {
                 .map(entity -> DateDisabledResponse
                         .builder()
                         .date(entity.getDate())
-                        .disabled(entity.getDisabled())
                         .build())
                 .toList();
         return dateDisabledResponses;
