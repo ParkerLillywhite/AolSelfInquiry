@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -24,6 +25,16 @@ public class DateService {
                 .disabled(true)
                 .build();
         dateRepository.save(dateEntity);
+    }
+
+    public List<TimeCancelledResponse> disableDates(List<DateRequest> requests) {
+
+        List<TimeCancelledResponse> responses =  requests.stream()
+                .map(this::disableDate)
+                .flatMap(List::stream)
+                .collect(Collectors.toList());
+
+        return responses;
     }
 
     public List<TimeCancelledResponse> disableDate(DateRequest request) {

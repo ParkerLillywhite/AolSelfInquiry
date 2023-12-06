@@ -35,6 +35,9 @@ public class DateServiceTest {
     private DateEntity dateEntityWithTimes;
 
     private DateRequest dateRequest;
+    private DateRequest secondDateRequest;
+
+    private List<DateRequest> dateRequests;
 
 
     @BeforeEach
@@ -80,6 +83,17 @@ public class DateServiceTest {
                 .builder()
                 .date(new Date(2023, 10, 23))
                 .build();
+
+        secondDateRequest = DateRequest
+                .builder()
+                .date(new Date(2023, 12, 6))
+                .build();
+
+
+        dateRequests = new ArrayList<>();
+        dateRequests.add(dateRequest);
+        dateRequests.add(secondDateRequest);
+
     }
 
     @Test
@@ -112,6 +126,26 @@ public class DateServiceTest {
         List<TimeCancelledResponse> timeCancelledResponses = dateService.disableDate(dateRequest);
 
         assertTrue(timeCancelledResponses.isEmpty());
+    }
+
+    @Test
+    public void testDisableDates_withMultipleRequests_returnsEmptyList() {
+        when(dateRepository.findByDate(any())).thenReturn(Optional.of(supremeDateEntity));
+        doNothing().when(timeRepository).deleteByEntity(any());
+
+        List<TimeCancelledResponse> timeCancelledResponses = dateService.disableDates(dateRequests);
+
+        assertTrue(timeCancelledResponses.isEmpty());
+    }
+
+    @Test
+    public void testDisableDates_withValidTimesPresentOnEntity_returnsTimeCancelledResponses() {
+        when(dateRepository.findByDate(any())).thenReturn(Optional.of(dateEntityWithTimes));
+        doNothing().when(timeRepository).deleteByEntity(any());
+
+        List<TimeCancelledResponse> response = dateService.disableDates(dateRequests);
+
+        assertEquals(response.get(0).getDate(), dateRequest.getDate());
     }
 
 }

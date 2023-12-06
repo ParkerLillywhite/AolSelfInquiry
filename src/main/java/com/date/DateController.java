@@ -19,9 +19,9 @@ public class DateController {
 
     @PostMapping("/create-disabled")
     public ResponseEntity<List<TimeCancelledResponse>> createDisabledDate(
-            @RequestBody DateRequest request
+            @RequestBody List<DateRequest> request
     ) {
-        return ResponseEntity.ok(dateService.disableDate(request));
+        return ResponseEntity.ok(dateService.disableDates(request));
     }
 
     @GetMapping("/disabled-dates")
