@@ -1,0 +1,7 @@
+.register-password-error input {
+    border: 1px solid red;
+}
+
+.register-password-error-message {
+    color: red;
+}
