@@ -14,7 +14,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class DateRequest {
-    //change
+
     @Temporal(TemporalType.DATE)
     private Date date;
 }
