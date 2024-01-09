@@ -1,0 +1,30 @@
+.login-error-message {
+    color: red;
+}
+
+.login-email-error input {
+    border: 1px solid red;
+}
+
+.login-password-error input {
+    border: 1px solid red;
+}
+
+@keyframes rotateAnimation {
+    from {
+        transform: rotate(0deg);
+    }
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.loading-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 3em;
+    animation: rotateAnimation 2s linear infinite;
+    transform-origin: center;
+
+}
