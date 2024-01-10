@@ -48,6 +48,7 @@ public class DateService {
         }
 
         if(areTimesCurrentlyPresentOnDateEntity(dateEntity)){
+            //if times are present on the selected date entity delete them and return the deleted times.
 
             List<TimeCancelledResponse> timeCancelledResponses = dateEntity.getTimes()
                     .stream()
@@ -73,6 +74,7 @@ public class DateService {
     }
 
     public List<DateDisabledResponse> findAllDisabledDates(){
+        //search the db for all disabled dates
         List<DateEntity> dateEntities = dateRepository.findByDisabledTrue().stream().toList();
         List<DateDisabledResponse> dateDisabledResponses = dateEntities.stream()
                 .map(entity -> DateDisabledResponse
