@@ -29,6 +29,8 @@ public class DateService {
 
     public List<TimeCancelledResponse> disableDates(List<DateRequest> requests) {
 
+        //this::disableDate applies the disableDate to each request in the list.
+        //flat map flattens the steam of lists into a single stream.
         List<TimeCancelledResponse> responses =  requests.stream()
                 .map(this::disableDate)
                 .flatMap(List::stream)
