@@ -46,6 +46,7 @@ public class DateController {
 
     @GetMapping("/disabled-dates")
     public ResponseEntity<List<DateDisabledResponse>> getDisabledDates() {
+        //returns all disabled dates
         return ResponseEntity.ok(dateService.findAllDisabledDates());
     }
 
