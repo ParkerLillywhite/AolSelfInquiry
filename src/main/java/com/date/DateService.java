@@ -17,7 +17,7 @@ public class DateService {
     private final TimeRepository timeRepository;
 
     public void createDisabledDate(DateRequest dateRequest){
-
+        //needs to handle if the date already exists.
         DateEntity dateEntity = DateEntity
                 .builder()
                 .date(dateRequest.getDate())
